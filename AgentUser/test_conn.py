@@ -23,4 +23,5 @@ class TestConn(BaseApi):
         message = str(self.cursor.fetchone()).split("，")
         # 获取验证码
         code = message[0].split("：")[1]
+        print(type(code))
         print(code)
