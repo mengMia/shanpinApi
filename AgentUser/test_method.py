@@ -1,3 +1,4 @@
+import shelve
 import time
 from hashlib import md5
 
@@ -45,6 +46,21 @@ def get_time():
     # 获取的是毫秒级时间戳
     print(int(round(ts * 1000)))
 
+def save_cookie():
+    # todo：这里先用shelve保存写死的cookie，然后获取, cookie可能会过期，或者可以从redis中获取cookie
+    # 从数据库中取出cookie
+    db = shelve.open("datas/cookies")
+    cookie = "3f8aaaed5a7e57d70ad30e59ce0315a9"
+    db['cookie'] = cookie
+    db.close()
+
+def get_cookie():
+    db = shelve.open("datas/cookies")
+    cookies = db['cookie']
+    print(cookies)
+
+
 if __name__ == '__main__':
-    getSign()
+    # getSign()
+    get_cookie()
     # md5_code()
