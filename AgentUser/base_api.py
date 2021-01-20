@@ -1,3 +1,5 @@
+import time
+from hashlib import md5
 
 import pymssql
 
@@ -20,6 +22,38 @@ class BaseApi():
                             '18275691113')
         message = str(self.cursor.fetchone()).split("，")
         # 获取验证码
-        code = message[0].split("：")[1]
+        verifycode = message[0].split("：")[1]
         # print(type(code))
-        return code
+        return verifycode
+
+    def get_sign(self, param):
+        ts = time.time()
+        # timestamp = int(round(ts * 1000))
+        # param = {
+        #     'version': 100,
+        #     'brokerid': '',
+        #     'key': '',
+        #     'mobile': 18275691113,
+        #     'source': "pc",
+        #     'productname': "51mdd_agent_pc",
+        #     'timestamp': timestamp,
+        # }
+        # 按key的字典序将param排序
+        params = {}
+        for i in sorted(param):
+            params[i] = param[i]
+
+        # 拼接几个请求参数，按照key1=value1&key2=value2的形式
+        query = ''
+        for k in params:
+            if len(query) > 0:
+                query += '&'
+            query = query + k + '=' + str(params[k])
+        print(query)
+
+        # md5加密
+        key = "51job-signature-agent"
+        token_md5 = (md5(query.encode(encoding='UTF-8')).hexdigest()) + key
+        # print(token_md5)
+        token = md5(token_md5.encode(encoding='UTF-8')).hexdigest()
+        return token
