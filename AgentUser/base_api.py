@@ -26,7 +26,7 @@ class BaseApi():
         # print(type(code))
         return verifycode
 
-    def get_sign(self, param):
+    def get_sign(self, param_request, data_request):
         ts = time.time()
         # timestamp = int(round(ts * 1000))
         # param = {
@@ -38,6 +38,10 @@ class BaseApi():
         #     'productname': "51mdd_agent_pc",
         #     'timestamp': timestamp,
         # }
+
+        # 合并请求里的params和data传参
+        param = {**param_request, **data_request}
+        del param["sign"]
         # 按key的字典序将param排序
         params = {}
         for i in sorted(param):
