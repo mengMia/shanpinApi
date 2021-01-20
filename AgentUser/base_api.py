@@ -12,14 +12,16 @@ class BaseApi():
         server = "10.100.2.142"  # 连接服务器地址
         user = "sa"  # 连接帐号
         password = "abc123!"  # 连接密码
-        self.conn = pymssql.connect(server, user, password, "sms", charset="GBK")  # 获取连接
-        return self.conn
+        conn = pymssql.connect(server, user, password, "sms", charset="GBK")  # 获取连接
+        return conn
 
-    # todo:手机号码作为变量传入
-    def get_verifycode(self):
-        self.cursor = self.conn.cursor()
+    def get_verifycode(self, phonenum):
+        # done:手机号码作为变量传入
+        # todo:不知道从数据库获取验证码的方式是否符合普通规则，毕竟线上是没法从数据库获取验证码的，上线之后怎么用这个用例验证呢
+        # 调用conn_db方法获取conn
+        self.cursor = self.conn_db().cursor()
         self.cursor.execute('select top 1 content from smssendqueue where KeyNum = %s order by smsid desc',
-                            '18275691113')
+                            phonenum)
         message = str(self.cursor.fetchone()).split("，")
         # 获取验证码
         verifycode = message[0].split("：")[1]
@@ -27,7 +29,7 @@ class BaseApi():
         return verifycode
 
     def get_sign(self, param_request, data_request):
-        ts = time.time()
+        # ts = time.time()
         # timestamp = int(round(ts * 1000))
         # param = {
         #     'version': 100,
