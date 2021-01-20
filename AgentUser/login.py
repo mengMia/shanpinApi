@@ -1,25 +1,36 @@
 import json
+import time
+
 import requests
 from AgentUser.base_api import BaseApi
-
 
 class Login(BaseApi):
     # todo:获取验证码需要进行数据清理，因为会有个发送次数的上限。应该先验证获取验证码的功能没有问题，再进行其他功能的验证，需要进行数据清理
     # todo:验证码的测试用例后续再写
     def send_phone_code(self):
+        # 根据请求的传参获取sign
+        timestamp = int(round(time.time() * 1000))
+        sign_init = ''
+        params = {
+            "version": 100,
+            "productname": "51mdd_agent_pc",
+            "brokerid": '',
+            "key": '',
+            "timestamp": timestamp,
+            "source": "pc",
+            "sign": sign_init
+        }
+        data = {
+            "mobile": 18275691113
+        }
+        param = {**params, **data}
+        del param["sign"]
+        print(param)
+        sign = self.get_sign(param)
+        params["sign"] = sign
         r = requests.post("http://shanpinapi.51job.com/user/send_phone_code.php",
-                          params={
-                            "version": 100,
-                            "productname": "51mdd_agent_pc",
-                            "brokerid": '',
-                            "key": '',
-                            "timestamp": 1611119751830,
-                            "source": "pc",
-                            "sign": "4d4d40c2b23e37b3c61885fcd47ea95b"
-                          },
-                          data={
-                              "mobile": 18275691113
-                          }
+                          params=params,
+                          data=data
                         )
 
         print(json.dumps(r.json(), ensure_ascii=False, indent=2))
