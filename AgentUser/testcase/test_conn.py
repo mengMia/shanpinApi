@@ -19,7 +19,8 @@ class TestConn(BaseApi):
         # conn = pymssql.connect(server, user, password, "sms")  # 获取连接
 
         # 查询该手机号的验证码记录
-        self.cursor.execute('select top 1 content from smssendqueue where KeyNum = %s order by smsid desc', '18275691113')
+        mobile = '18275691113'
+        self.cursor.execute('select top 1 content from smssendqueue where KeyNum = %s order by smsid desc', mobile)
         message = str(self.cursor.fetchone()).split("，")
         # 获取验证码
         code = message[0].split("：")[1]
