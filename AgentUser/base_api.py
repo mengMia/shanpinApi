@@ -56,7 +56,7 @@ class BaseApi():
             if len(query) > 0:
                 query += '&'
             query = query + k + '=' + str(params[k])
-        print(query)
+        # print(query)
 
         # md5加密
         key = "51job-signature-agent"
@@ -68,7 +68,8 @@ class BaseApi():
     def get_cookie(self):
         # todo：这里先用shelve保存写死的cookie，然后获取, cookie可能会过期，或者可以从redis中获取cookie
         # 从数据库中取出cookie
-        db = shelve.open("datas/cookies")
+        # testcase里面的测试用例调用这个方法，所以目录要先从testcase目录回到上一层，再进入datas找cookie
+        db = shelve.open("../datas/cookies")
         cookies = db['cookie']
         db.close()
         return cookies
