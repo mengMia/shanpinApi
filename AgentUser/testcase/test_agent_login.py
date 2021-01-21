@@ -1,9 +1,9 @@
-from AgentUser.login import Login
+from AgentUser.agent_login import AgentLogin
 
 
 class TestUserLogin:
     def setup(self):
-        self.userLogin = Login()
+        self.userLogin = AgentLogin()
 
     def test_send_phonecode(self):
         self.userLogin.send_phone_code()
