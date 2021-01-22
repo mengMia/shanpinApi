@@ -104,3 +104,117 @@ class AgentCandidate(BaseApi):
         # assert r.json()['status'] == 1
         assert r.json()['result'] == 1
         return r
+
+    def get_candidate_list(self):
+        """
+        获取推荐的候选人列表
+        """
+        timestamp = int(round(time.time() * 1000))
+        key = self.get_cookie()
+        params = {
+            "keyword":'',
+            "fromdate": 2020 - 12 - 23,
+            "todate": 2021 - 1 - 22,
+            "auditstatus":'',
+            "pageno":1,
+            "pagesize":12,
+            "filterbroker":'',
+            "orderby":"updatedate",
+            "version": 100,
+            "productname": "51mdd_agent_pc",
+            "brokerid": 87,
+            "key": key,
+            "timestamp": timestamp,
+            "source": "pc",
+            "sign": '',
+        }
+        data = {
+
+        }
+        # 获取sign
+        sign = self.get_sign(params, data)
+        params["sign"] = sign
+
+        r = requests.get("https://shanpinapi.51job.com/candidate/get_candidate_list.php",
+                         params=params,
+                         # data=data
+                         )
+        print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
+        assert r.status_code == 200
+        assert r.json()['status'] == 1
+        assert r.json()['result'] == 1
+        return r
+
+    def get_resume_detail(self):
+        """
+        获取简历详情，简历审核不通过，需要重新修改的时候会调用这个接口
+        """
+        timestamp = int(round(time.time() * 1000))
+        key = self.get_cookie()
+        params = {
+            "resumeid": 251,
+            "recommendid": 395,
+            "version": 100,
+            "productname": "51mdd_agent_pc",
+            "brokerid": 87,
+            "key": key,
+            "timestamp": timestamp,
+            "source": "pc",
+            "sign": '',
+        }
+        data = {
+
+        }
+        # 获取sign
+        sign = self.get_sign(params, data)
+        params["sign"] = sign
+
+        r = requests.get("https://shanpinapi.51job.com/candidate/get_resume_detail.php",
+                         params=params,
+                         # data=data
+                         )
+        print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
+        assert r.status_code == 200
+        assert r.json()['status'] == 1
+        assert r.json()['result'] == 1
+        return r
+
+    def upload_photo(self):
+        """
+        上传图片
+        """
+        pass
+
+    def remind_stage_audit(self):
+        """
+        提醒返费阶段审核
+        """
+        timestamp = int(round(time.time() * 1000))
+        key = self.get_cookie()
+        params = {
+            "auditid": 897,
+            "version": 100,
+            "productname": "51mdd_agent_pc",
+            "brokerid": 87,
+            "key": key,
+            "timestamp": timestamp,
+            "source": "pc",
+            "sign": '',
+        }
+        data = {
+
+        }
+        # 获取sign
+        sign = self.get_sign(params, data)
+        params["sign"] = sign
+
+        r = requests.get("https://shanpinapi.51job.com/candidate/remind_stage_audit.php",
+                         params=params,
+                         # data=data
+                         )
+        print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
+        assert r.status_code == 200
+        assert r.json()['status'] == 1
+        assert r.json()['result'] == 1
+        return r
+

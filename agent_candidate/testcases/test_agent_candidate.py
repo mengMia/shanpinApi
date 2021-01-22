@@ -10,3 +10,12 @@ class TestAgentCandidate():
 
     def test_check_has_resume(self):
         self.candidate.check_has_resume()
+
+    def test_get_candidate_list(self):
+        self.candidate.get_candidate_list()
+
+    def test_get_resume_detail(self):
+        self.candidate.get_resume_detail()
+
+    def test_remind_stage_audit(self):
+        self.candidate.remind_stage_audit()
