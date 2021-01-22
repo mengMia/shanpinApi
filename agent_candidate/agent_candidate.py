@@ -183,7 +183,34 @@ class AgentCandidate(BaseApi):
         """
         上传图片
         """
-        pass
+        timestamp = int(round(time.time() * 1000))
+        key = self.get_cookie()
+        photo = self.get_photoBase64encode()
+        params = {
+            "version": 100,
+            "productname": "51mdd_agent_pc",
+            "brokerid": 87,
+            "key": key,
+            "timestamp": timestamp,
+            "source": "pc",
+            "sign": '',
+        }
+        data = {
+            "photo": photo
+        }
+        # 获取sign
+        sign = self.get_sign(params, data)
+        params["sign"] = sign
+
+        r = requests.post("https://shanpinapi.51job.com/candidate/upload_photo.php",
+                         params=params,
+                         data=data
+                         )
+        print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
+        assert r.status_code == 200
+        assert r.json()['status'] == 1
+        assert r.json()['result'] == 1
+        return r
 
     def remind_stage_audit(self):
         """
