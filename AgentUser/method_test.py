@@ -50,7 +50,7 @@ def save_cookie():
     # todo：这里先用shelve保存写死的cookie，然后获取, cookie可能会过期，或者可以从redis中获取cookie
     # 从数据库中取出cookie
     db = shelve.open("../datas/cookies")
-    cookie = "3f8aaaed5a7e57d70ad30e59ce0315a9"
+    cookie = "4c9890042602c4764529116ee697a290"
     db['cookie'] = cookie
     db.close()
 
@@ -63,4 +63,5 @@ def get_cookie():
 if __name__ == '__main__':
     # getSign()
     get_cookie()
+    # save_cookie()
     # md5_code()
