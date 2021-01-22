@@ -1,3 +1,4 @@
+import base64
 import shelve
 import time
 from hashlib import md5
@@ -59,9 +60,16 @@ def get_cookie():
     cookies = db['cookie']
     print(cookies)
 
+def get_photoBase64encode():
+    with open("./12.png", "rb") as f:
+        img_data = f.read()
+        base64_data = base64.b64encode(img_data)
+        # print(type(base64_data))
+        print(base64_data)
 
 if __name__ == '__main__':
     # getSign()
-    get_cookie()
+    # get_cookie()
     # save_cookie()
     # md5_code()
+    get_photoBase64encode()
