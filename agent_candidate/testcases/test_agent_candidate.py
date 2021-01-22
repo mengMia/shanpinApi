@@ -7,3 +7,6 @@ class TestAgentCandidate():
 
     def test_recommend_resume(self):
         self.candidate.recommend_resume()
+
+    def test_check_has_resume(self):
+        self.candidate.check_has_resume()
