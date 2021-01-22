@@ -2,7 +2,7 @@ import json
 import time
 
 import requests
-from AgentUser.base_api import BaseApi
+from common.base_api import BaseApi
 
 class AgentLogin(BaseApi):
     # todo:获取验证码需要进行数据清理，因为会有个发送次数的上限。应该先验证获取验证码的功能没有问题，再进行其他功能的验证，需要进行数据清理

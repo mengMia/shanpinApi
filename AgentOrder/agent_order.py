@@ -3,7 +3,7 @@ import time
 
 import requests
 
-from AgentUser.base_api import BaseApi
+from common.base_api import BaseApi
 
 
 class AgentOrder(BaseApi):
