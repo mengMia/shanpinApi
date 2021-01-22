@@ -61,11 +61,12 @@ def get_cookie():
     print(cookies)
 
 def get_photoBase64encode():
-    with open("./12.png", "rb") as f:
+    with open("../common/12.png", "rb") as f:
         img_data = f.read()
         base64_data = base64.b64encode(img_data)
+        pic_str = base64_data.decode("utf-8")
         # print(type(base64_data))
-        print(base64_data)
+        print(pic_str)
 
 if __name__ == '__main__':
     # getSign()
