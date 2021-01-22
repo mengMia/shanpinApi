@@ -1,4 +1,4 @@
-from AgentUser.agent_login import AgentLogin
+from agent_user.agent_login import AgentLogin
 
 
 class TestUserLogin:

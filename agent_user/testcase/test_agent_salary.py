@@ -1,4 +1,4 @@
-from AgentUser.agent_salary import AgentSalary
+from agent_user.agent_salary import AgentSalary
 
 
 class TestAgentSalary():

@@ -1,4 +1,4 @@
-from AgentOrder.agent_order import AgentOrder
+from agent_order.agent_order import AgentOrder
 
 
 class TestAgentOrder():
