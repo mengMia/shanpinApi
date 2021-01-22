@@ -1,6 +1,4 @@
-import pymssql
-
-from AgentUser.base_api import BaseApi
+from common.base_api import BaseApi
 
 
 class TestConn(BaseApi):
