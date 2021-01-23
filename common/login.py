@@ -6,11 +6,14 @@ import yaml
 from common import request
 from common import sign
 from common import base_api
+from common import prefixSqlData
+
 
 class Login():
     request = request.RunMethod()
     sign = sign.Sign()
-    db = base_api.BaseApi()
+    # db = base_api.BaseApi()
+    db = prefixSqlData.ExecSql()
 
     def __init__(self):
         with open("../config/test.yaml", encoding='utf-8') as f:
@@ -84,12 +87,9 @@ class Login():
         return r
 
     def get_verifycode(self, phonenum):
-        # done:手机号码作为变量传入
-        # 调用conn_db方法获取conn
-        self.cursor = self.db.conn_db().cursor()
-        self.cursor.execute('select top 1 content from smssendqueue where KeyNum = %s order by smsid desc',
-                            phonenum)
-        message = str(self.cursor.fetchone()).split("，")
+        sql = f'select top 1 content from smssendqueue where KeyNum = {phonenum} order by smsid desc'
+        result = self.db.exec_sql("shanpinApi", sql)
+        message = str(result).split("，")
         # 获取验证码
         verifycode = message[0].split("：")[1]
         return verifycode
