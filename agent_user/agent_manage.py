@@ -24,9 +24,12 @@ class AgentManage(BaseApi):
             "sign": ''
         }
         data = {
-            "phonenum": 19122220002,
+            "phonenum": 19122220003,
             "name": "测试",
         }
+        # header = {
+        #     "Content-Type": 'application/json'
+        # }
         # 获取sign
         sign = self.get_sign(params, data)
         params["sign"] = sign
