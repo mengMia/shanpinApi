@@ -1,0 +1,34 @@
+shanpinApi:
+  base_url: 'http://shanpinapi.51job.com'
+  account:
+    huahua_account: '18275691113'
+    jing_account: &mobile '18275691111'
+
+  agent_login:
+    login_method: post
+    login_url: '/user/login.php'
+    params:
+      version: 100
+      productname: "51mdd_agent_pc"
+      brokerid: ''
+      key: ''
+      timestamp: ${timestamp}
+      source: "pc"
+      sign: ${sign}
+    data:
+      mobile: *mobile
+      phonecode: ${verifycode}
+      source: "pc"
+
+  agent_sms_code:
+    sms_method: post
+    sms_url: '/user/send_phone_code.php'
+    data:
+      mobile: *mobile
+
+  sqlserver:
+    host: 10.100.2.142
+    user: 'sa'
+    pwd: 'abc123!'
+    sms_db: 'sms'
+
