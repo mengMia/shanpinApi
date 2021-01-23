@@ -1,4 +1,5 @@
 import base64
+import logging
 import shelve
 import time
 from hashlib import md5
@@ -6,6 +7,12 @@ from hashlib import md5
 import pymssql
 
 class BaseApi():
+    root_logger = logging.getLogger()
+    print(f"root_logger.handlers:{logging.getLogger().handlers}")
+    for h in root_logger.handlers[:]:
+        root_logger.removeHandler(h)
+    logging.basicConfig(level=logging.INFO)
+
     # todo：服务器和用户名作为变量传入
     # todo: 一个模块只建立一次数据库的连接
     def conn_db(self):
@@ -42,7 +49,7 @@ class BaseApi():
         #     'productname': "51mdd_agent_pc",
         #     'timestamp': timestamp,
         # }
-
+        logging.info("调用了getSign方法")
         # 合并请求里的params和data传参
         param = {**param_request, **data_request}
         del param["sign"]
@@ -82,5 +89,6 @@ class BaseApi():
             pic_str = base64_data.decode("utf-8")
             return pic_str
             # print(base64_data)
+
 
 
