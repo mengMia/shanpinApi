@@ -1,0 +1,13 @@
+add_agent：
+    "url": "https://shanpinapi.51job.com/user/add_broker.php"
+    "params":
+        "version": 100,
+        "productname": "51mdd_agent_pc",
+        "brokerid": 87,
+        "key": key,
+        "timestamp": ${timestamp},
+        "source": "pc",
+        "sign": ''
+    "data":
+        "phonenum": 19122220005,
+        "name": "测试",
