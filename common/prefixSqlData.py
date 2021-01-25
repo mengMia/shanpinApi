@@ -21,8 +21,6 @@ class ExecSql():
         初始化sqlserver配置
         :param platform_name:
         """
-        #
-        # self.sql_conf = self._get_sql_conf(plarform_name)
         self.sql_conf = None
         with open('../config/test.yaml') as f:
             self.conf = yaml.safe_load(f)
@@ -56,10 +54,15 @@ class ExecSql():
 
     def exec_sql(self, project, sql):
         # todo 仅仅写了执行查询语句，增删改还没封装
+        # 获取sql配置
         self.sql_conf = self._get_sql_conf(project)
+        # 使用已获取到的sql配置：sql_conf连接数据库
         self.conn_db()
+        # 获取游标
         cursor = self.get_cursor()
+        # 执行sql语句
         cursor.execute(sql)
+        # 获取sql执行结果
         result = cursor.fetchone()
         self.cursor.close()
         self.conn.close()
