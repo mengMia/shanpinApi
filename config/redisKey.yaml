@@ -1,0 +1,44 @@
+shanpinApi:
+  'agent-broker-login':
+    'type' : 'hash'
+    'prefix' : 'agent_broker_login'
+    'timestamp' : '200508'
+    'lifetime' : 2592000
+  'agent-verifycode':
+    'type': 'hash'
+    'prefix': 'agent_verifycode'
+    'timestamp': '200508'
+    'lifetime': 600
+  'agent-verifycode-total':
+    'type' : 'string'
+    'prefix' : 'agent_verifycode_total'
+    'timestamp' : '200508'
+    'lifetime' : 86400
+  'agent-verifycode-err-total':
+    'type' : 'list'
+    'prefix' : 'agent_verifycode_err_total'
+    'timestamp' : '200508'
+    'lifetime' : 3600
+#    用户最近一次查看订单列表日期
+  'agent-recommendlist-recentdate':
+    'type' : 'string'
+    'prefix' : 'agent_recommendlist_recentdate'
+    'timestamp' : '201105'
+    'lefttime' : 0
+#  后台批次结算处理状态
+  'agent-batch-settle':
+    'type' : 'string'
+    'prefix' : 'agent_batch_settle'
+    'timestamp' : '201218'
+    'lifetime' : 60 * 60 * 24 * 7
+#  结算单号生成
+  'agent-settleid':
+    'type' : 'string'
+    'prefix' : 'agent_settleid'
+    'timestamp' : '201218'
+    'lifetime' : 60 * 60 * 2
+  'agent-batchid':
+    'type' : 'string'
+    'prefix' : 'agent_batchid'
+    'timestamp' : '201218'
+    'lifetime' : 60 * 60
