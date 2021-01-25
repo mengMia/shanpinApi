@@ -35,7 +35,7 @@ class ExecSql():
 
     def conn_db(self):
         """
-        连接mysql
+        连接sqlserver
         :return:
         """
         server = self.sql_conf['host']  # 连接服务器地址
