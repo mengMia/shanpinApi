@@ -1,15 +1,17 @@
+import json
 import os
 
 import yaml
 
 
 class ReadFile():
+    params = {}
     def __init__(self):
         # os.path.dirname(__file__) 获取当前脚本运行的绝对路径
         # D: / CS / PythonCode / common
         # os.path.dirname(os.path.dirname(__file__))去掉当前脚本运行的绝对路径的最后一个路径，
         # D:/CS/PythonCode
-
+        # 用来做变量替换的
         # 拼接为绝对路径，还有点问题
         # 拼接的路径结果是：D:/CS/PythonCode\config/test.yaml，但是yaml读取这个路径的时候没报错
         self.test_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config/test.yaml')
@@ -30,6 +32,20 @@ class ReadFile():
         # todo:读取excel文件
         pass
 
+    def var_replace(self, data, params):
+        """
+        对yaml文件中的变量进行替换
+        """
+        raw_data = json.dumps(data)
+        for k, v in params.items():
+            raw_data = raw_data.replace("${" + k + "}", v)
+        data = json.loads(raw_data)
+        return data
+
+
 if __name__ == '__main__':
     test = ReadFile()
-    test.read_yaml('test_yaml_path')
+    data = test.read_yaml('test_yaml_path')["shanpinApi"]
+    test.params = data['agent_login']['params']
+    test.params['timestamp'] = '123456'
+    test.var_replace(data)
