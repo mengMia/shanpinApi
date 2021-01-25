@@ -4,6 +4,9 @@ import shelve
 import time
 from hashlib import md5
 
+import redis
+
+
 class MethonTest():
     root_logger = logging.getLogger()
     # print(f"root_logger.handlers:{logging.getLogger().handlers}")
@@ -69,17 +72,41 @@ class MethonTest():
         print(cookies)
 
     def get_photoBase64encode(self):
-        with open("../common/12.png", "rb") as f:
+        with open("common/12.png", "rb") as f:
             img_data = f.read()
             base64_data = base64.b64encode(img_data)
             pic_str = base64_data.decode("utf-8")
             # print(type(base64_data))
             print(pic_str)
 
+    def conn_redis(self):
+        # 可以通过url来连接
+        # url = 'redis://:foobared@localhost:6379/0'
+        # pool = ConnectionPool.from_url(url)
+        # redis = StrictRedis(connection_pool=pool)
+        # 注意这里的db是0-15的数字，不是写为db0-db15，
+        pool = redis.ConnectionPool(host='10.100.3.225', port='6380', db=0, password='3ebc6626')
+        r = redis.StrictRedis(connection_pool=pool)
+        # print(r)
+        #
+        id = 53
+        # print(r.exists("agent_broker_login_200508:121"))
+        # print(r.get(f'agent_recommendlist_recentdate_201105:{id}'))
+
+
+        print(r.delete('agent_verifycode_err_total_200508:85'))
+
+        # print(r.hdel('agent_verifycode_200508:85', 'id'))
+
+
+
+
+
 if __name__ == '__main__':
     t = MethonTest()
     # get_cookie()
     # save_cookie()
     # md5_code()
-    t.getSign()
+    # t.getSign()
     # t.get_photoBase64encode()
+    t.conn_redis()
