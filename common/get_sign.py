@@ -15,10 +15,8 @@ class Sign():
         """
         获取sign，并返回替换sign之后的参数
         """
+        # 初始化传入的参数
         self.rep_params = rep_params
-        # 获取时间戳，并放到需要进行变量替换的rep_params字典中，调用get_sign方法时会调用变量替换方法，把rep_params字典传入get——sign方法
-        timestamp = int(round(time.time() * 1000))
-        self.rep_params["timestamp"] = str(timestamp)
         self.param_request = param_request
         self.data_request = data_request
         # 获取sign
