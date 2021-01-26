@@ -11,7 +11,7 @@ class Sign():
     param_request = {}
     data_request = {}
 
-    def replace_sign(self, param_request, data_request, rep_params):
+    def replace_sign(self, param_request, rep_params, data_request=None):
         """
         获取sign，并返回替换sign之后的参数
         """
@@ -40,7 +40,11 @@ class Sign():
         data_request = self.file.var_replace(self.data_request, self.rep_params)
 
         # 合并请求里的params和data传参
-        param = {**param_request, **data_request}
+        if (data_request is None):
+            param = param_request
+        else:
+            param = {**param_request, **data_request}
+        # 去除参数中的sign再加密
         del param["sign"]
         # 按key的字典序将param排序
         params = {}
