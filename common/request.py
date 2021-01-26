@@ -1,10 +1,13 @@
 import requests
 
+from common.read_file import ReadFile
+
 
 class RunMethod():
     """
     request方法
     """
+    file = ReadFile()
     def post_main(self, url, param, data):
         """
         post请求
@@ -19,10 +22,13 @@ class RunMethod():
         r = requests.get(url=url, params=param)
         return r
 
-    def run_main(self, method, url, params=None, data=None):
+    def run_main(self, method, url, params, rep_params, data=None):
         """
         被调用主request
         """
+        # 先进行变量替换
+        params = self.file.var_replace(params, rep_params)
+        data = self.file.var_replace(data, rep_params)
         try:
             if method == 'post' or method == 'POST' or method == 'Post':
                 r = self.post_main(url, params, data)
