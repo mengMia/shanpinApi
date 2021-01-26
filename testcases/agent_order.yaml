@@ -1,0 +1,12 @@
+shanpinApi:
+  order:
+    list:
+      method: 'get'
+      url: 'http://shanpinapi.51job.com/order/get_order_list.php'
+      addi_params:
+        "pageno": '1'
+        "pagesize": '12'
+        "keyword": ${keyword}
+        "jobarea": ''
+        "funtype": ''
+        "sorttype": '0'
