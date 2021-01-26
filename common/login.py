@@ -1,4 +1,5 @@
 import json
+import time
 
 from common import request, prefixRedisData, get_sign, prefixSqlData
 from common.read_file import ReadFile
@@ -53,6 +54,10 @@ class Login():
         # 获取并替换掉验证码
         verifycode = self.get_verifycode(str(self.phonenum))
         self.rep_params['verifycode'] = str(verifycode)
+
+        timestamp = int(round(time.time() * 1000))
+        self.rep_params["timestamp"] = str(timestamp)
+
         # 该方法获取sign，并返回替换sign之后的参数
         params = self.sign.replace_sign(params, self.rep_params, data)
         # 获取url
@@ -70,6 +75,8 @@ class Login():
         """
         params = self.login["params"]
         data = self.sms["data"]
+        timestamp = int(round(time.time() * 1000))
+        self.rep_params["timestamp"] = str(timestamp)
         # 该方法获取sign，并返回替换sign之后的参数，data是在request方法中进行的变量替换
         params = self.sign.replace_sign(params, self.rep_params, data)
         # 获取url
