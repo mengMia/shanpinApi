@@ -1,22 +1,18 @@
-import datetime
 import json
-import time
 
-import yaml
-
-from common import request, prefixRedisData, sign, prefixSqlData
+from common import request, prefixRedisData, get_sign, prefixSqlData
 from common.read_file import ReadFile
 
 
 class Login():
     request = request.RunMethod()
-    sign = sign.Sign()
+    sign = get_sign.Sign()
     sql = prefixSqlData.ExecSql()
     redis = prefixRedisData.ExecRedis()
     file = ReadFile()
 
     def __init__(self):
-        self.replace_params = {}
+        self.rep_params = {}
         self.base_param = self.file.read_yaml('test_yaml_path')['shanpinApi']
         self.redis_key = self.file.read_yaml('redis_yaml_path')['shanpinApi']
 
@@ -35,7 +31,7 @@ class Login():
         # 获取验证码相关的参数
         self.sms = self.base_param["agent_sms_code"]
         # 获取发送验证码的请求方法
-        self.sms_url = self.sms["sms_method"]
+        self.sms_method = self.sms["sms_method"]
         # 获取发送验证码的url
         self.sms_url = self.sms["sms_url"]
 
@@ -44,54 +40,42 @@ class Login():
         self.keyArray = self.redis.get_redis_key(brokerid)
 
     def agent_login(self):
+        """
+        登录闪聘
+        """
         # done:已经登录过，再执行就会报错，要进行数据清理，后续再完成
-        # todo : 这个yaml中使用变量的，以后通过写一个变量替换方法来完成，
+        # done : 这个yaml中使用变量的，以后通过写一个变量替换方法来完成，
         params = self.login["params"]
         data = self.login["data"]
-        # 获取并替换时间戳
-        timestamp = int(round(time.time() * 1000))
-        params["timestamp"] = timestamp
 
         # 发送验证码
         self.send_phone_code()
         # 获取并替换掉验证码
         verifycode = self.get_verifycode(str(self.phonenum))
-        data["phonecode"] = verifycode
-        # self.replace_params['timestamp'] = str(timestamp)
-        # self.replace_params['phonecode'] = str(verifycode)
-        # self.file.var_replace(params, self.replace_params)
-        # self.file.var_replace(data, self.replace_params)
-
-        # 获取并替换掉sign
-        sign = self.sign.get_sign(params, data)
-        params["sign"] = sign
+        self.rep_params['verifycode'] = str(verifycode)
+        # 该方法获取sign，并返回替换sign之后的参数
+        params = self.sign.replace_sign(params, self.rep_params, data)
+        # 获取url
         url = self.base_url + self.login_url
-
         # 发送请求
-        r = self.request.run_main(self.login_method, url, params, data)
+        r = self.request.run_main(self.login_method, url, params, self.rep_params, data)
         print(json.dumps(r.json(), ensure_ascii=False, indent=2))
-
         # 数据清理-删除验证码60s时间限制以及发送次数限制
         self.redis.deleteRedisKey("shanpinApi", self.keyArray)
-
         return r
 
     def send_phone_code(self):
-        # 根据请求的传参获取sign
-        # todo 后面再进一步封装这个方法
+        """
+        获取验证码
+        """
         params = self.login["params"]
         data = self.sms["data"]
-        # 获取并替换时间戳
-        timestamp = int(round(time.time() * 1000))
-        params["timestamp"] = timestamp
-
-        # 获取并替换掉sign
-        sign = self.sign.get_sign(params, data)
-        params["sign"] = sign
+        # 该方法获取sign，并返回替换sign之后的参数，data是在request方法中进行的变量替换
+        params = self.sign.replace_sign(params, self.rep_params, data)
+        # 获取url
         url = self.base_url + self.sms_url
-
         # 发送请求
-        r = self.request.post_main(url, params, data)
+        r = self.request.run_main(self.sms_method, url, params, self.rep_params, data)
 
         print(json.dumps(r.json(), ensure_ascii=False, indent=2))
         assert r.status_code == 200
@@ -108,6 +92,7 @@ class Login():
 
 if __name__ == '__main__':
     test = Login()
+    # test.send_phone_code()
     test.agent_login()
     # test.send_phone_code()
 
