@@ -6,8 +6,8 @@ shanpinApi:
   base_params:
     version: '100'
     productname: "51mdd_agent_pc"
-    brokerid: ''
-    key: ''
+    brokerid: ${brokerid}
+    key: ${key}
     timestamp: ${timestamp}
     source: "pc"
     sign: ${sign}
