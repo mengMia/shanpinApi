@@ -37,6 +37,7 @@ class Login():
         self.sms_url = self.sms["sms_url"]
 
         # 获取redis相关的参数
+        # todo:经纪人id需要作为变量传入
         brokerid = '85'
         self.keyArray = self.redis.get_redis_key(brokerid)
 
