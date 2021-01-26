@@ -51,4 +51,4 @@ if __name__ == '__main__':
     data = test.read_yaml('test_yaml_path')["shanpinApi"]
     test.params = data['agent_login']['params']
     test.params['timestamp'] = '123456'
-    test.var_replace(data)
+    test.var_replace(data, test.params)
