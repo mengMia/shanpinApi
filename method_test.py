@@ -19,13 +19,13 @@ class MethonTest():
         ts = time.time()
         timestamp = int(round(ts * 1000))
         param = {
-                 'version': 100,
+                 'version': '100',
                  'brokerid': '',
                  'key': '',
-                 'mobile': 18275691113,
+                 'mobile': '18275691113',
                  'source': "pc",
                  'productname': "51mdd_agent_pc",
-                 'timestamp': 1611119751830,
+                 'timestamp': '1611119751830',
                  }
         # 按key的字典序将param排序
         params = {}
@@ -107,6 +107,6 @@ if __name__ == '__main__':
     # get_cookie()
     # save_cookie()
     # md5_code()
-    # t.getSign()
+    t.getSign()
     # t.get_photoBase64encode()
-    t.conn_redis()
+    # t.conn_redis()
