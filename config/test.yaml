@@ -3,6 +3,14 @@ shanpinApi:
   account:
     huahua_account: &mobile_huahua '18275691113'
     jing_account: &mobile_jing '18275691111'
+  base_params:
+    version: '100'
+    productname: "51mdd_agent_pc"
+    brokerid: ''
+    key: ''
+    timestamp: ${timestamp}
+    source: "pc"
+    sign: ${sign}
 
   agent_login:
     login_method: 'post'
