@@ -7,6 +7,8 @@ from common.base_api import BaseApi
 from common.get_sign import Sign
 from common.read_file import ReadFile
 from common import request
+from testcases.conftest import get_token
+
 
 
 class AgentOrder(BaseApi):
@@ -16,22 +18,31 @@ class AgentOrder(BaseApi):
     base_param = file.read_yaml("test_yaml_path")["shanpinApi"]["base_params"]
     order_param = file.read_yaml("order_yaml_path")["shanpinApi"]["order"]
     rep_params = {}
-    def get_order_list(self, keyword, **kwargs):
+    # key = get_token
+
+    def get_order_list(self, key):
         """
         获取所有招聘订单列表
         :return:
         """
+        # todo: key使用conftest中的key进行获取
+        # key = self.get_cookie()
+        # key = get_token
+        # key = "3413264becd85fce685128fe4520190e"
         timestamp = int(round(time.time() * 1000))
-        key = self.get_cookie()
+        # 将要替换的公共params参数存到rep_params中
         self.rep_params["timestamp"] = str(timestamp)
         self.rep_params["key"] = key
-        self.rep_params["keyword"] = keyword
         self.rep_params["brokerid"] = '85'
-        addi_params = self.order_param["list"]['addi_params']
-
-        params = {**self.base_param, **addi_params}
+        # todo: 先调试获取登录key的
+        # # 整合所有的params,testc_case是每个用例传不同的参数
+        # params = {**self.base_param, **test_case}
+        test_case = self.order_param["list"]["test_keyword0"]
+        params = {**self.base_param, **test_case}
+        # 获取sign并返回替换sign后的参数
         params = self.sign.replace_sign(params, self.rep_params)
 
+        # 获取请求方式和url
         method = self.order_param["list"]["method"]
         url = self.order_param["list"]["url"]
 
@@ -140,3 +151,7 @@ class AgentOrder(BaseApi):
         assert r.json()['status'] == 1
         assert r.json()['result'] == 1
         return r
+
+if __name__ == '__main__':
+    order = AgentOrder()
+    order.get_order_list()
