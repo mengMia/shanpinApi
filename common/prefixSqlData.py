@@ -1,6 +1,8 @@
 import pymssql
 import yaml
 
+from common.read_file import ReadFile
+
 
 class ExecSql():
     """
@@ -15,6 +17,7 @@ class ExecSql():
     #     if cls._instance is None:
     #         cls._instance = super().__new__(cls)
     #     return cls._instance
+    file = ReadFile()
 
     def __init__(self):
         """
@@ -22,8 +25,9 @@ class ExecSql():
         :param platform_name:
         """
         self.sql_conf = None
-        with open('../config/test.yaml') as f:
-            self.conf = yaml.safe_load(f)
+        # with open('../config/test.yaml') as f:
+        #     self.conf = yaml.safe_load(f)
+        self.conf = self.file.read_yaml('test_yaml_path')
 
     def _get_sql_conf(self, project):
         try:
