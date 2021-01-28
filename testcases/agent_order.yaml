@@ -3,10 +3,18 @@ shanpinApi:
     list:
       method: 'get'
       url: 'http://shanpinapi.51job.com/order/get_order_list.php'
-      addi_params:
+      test_keyword0:
         "pageno": '1'
         "pagesize": '12'
-        "keyword": ${keyword}
+        "keyword": "销售"
         "jobarea": ''
         "funtype": ''
         "sorttype": '0'
+      test_keyword1:
+        "pageno": '1'
+        "pagesize": '12'
+        "keyword": "前台"
+        "jobarea": ''
+        "funtype": ''
+        "sorttype": '0'
+
