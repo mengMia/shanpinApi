@@ -1,3 +1,4 @@
+import json
 
 import pytest
 
@@ -11,6 +12,7 @@ def get_token():
     登录获取key并返回
     """
     r = Login().agent_login()
+    print(json.dumps(r.json(), ensure_ascii=False, indent=2))
     get_token = r.json()['key']
     return get_token
 
