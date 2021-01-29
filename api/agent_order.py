@@ -20,24 +20,31 @@ class AgentOrder(BaseApi):
     rep_params = {}
     # key = get_token
 
-    def get_order_list(self, key):
+    def get_order_list(self, key, pageno, pagesize, keyword, jobarea, funtype, sorttype):
         """
         获取所有招聘订单列表
         :return:
         """
-        # todo: key使用conftest中的key进行获取
-        # key = self.get_cookie()
-        # key = get_token
-        # key = "3413264becd85fce685128fe4520190e"
+        # done: key使用conftest中的key进行获取
         timestamp = int(round(time.time() * 1000))
-        # 将要替换的公共params参数存到rep_params中
+        # 将要替换的公共params参数存到rep_params中,
+        # todo: 可以先在测试用例执行的地方替换好，把params参数传进来，
+        #  这样request请求中不需要再进行替换了
         self.rep_params["timestamp"] = str(timestamp)
         self.rep_params["key"] = key
         self.rep_params["brokerid"] = '85'
-        # todo: 先调试获取登录key的
-        # # 整合所有的params,testc_case是每个用例传不同的参数
+        # done: 先调试获取登录key的
+        # # 整合所有的params,test_case是每个用例传不同的参数
         # params = {**self.base_param, **test_case}
-        test_case = self.order_param["list"]["test_keyword0"]
+        # test_case = self.order_param["list"]["test_keyword0"]
+        test_case = {
+            "pageno": pageno,
+            "pagesize": pagesize,
+            "keyword": keyword,
+            "jobarea": jobarea,
+            "funtype": funtype,
+            "sorttype": sorttype
+        }
         params = {**self.base_param, **test_case}
         # 获取sign并返回替换sign后的参数
         params = self.sign.replace_sign(params, self.rep_params)
@@ -53,18 +60,18 @@ class AgentOrder(BaseApi):
         assert r.json()['result'] == 1
         return r
 
-    def get_job_info(self):
+    def get_job_info(self, key):
         """
         获取订单详情-职位详情
         :return:
         """
         timestamp = int(round(time.time() * 1000))
-        key = self.get_cookie()
+        # key = self.get_cookie()
         params = {
             "orderid": 246,
             "version": 100,
             "productname": "51mdd_agent_pc",
-            "brokerid": 87,
+            "brokerid": 85,
             "key": key,
             "timestamp": timestamp,
             "source": "pc",
