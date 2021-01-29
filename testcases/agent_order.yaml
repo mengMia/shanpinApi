@@ -4,12 +4,12 @@ shanpinApi:
       method: 'get'
       url: 'http://shanpinapi.51job.com/order/get_order_list.php'
       test_keyword0:
-        "pageno": '1'
-        "pagesize": '12'
-        "keyword": "销售"
-        "jobarea": ''
-        "funtype": ''
-        "sorttype": '0'
+        - '1'
+        - '12'
+        - "销售"
+        - ''
+        - ''
+        - '0'
       test_keyword1:
         "pageno": '1'
         "pagesize": '12'
