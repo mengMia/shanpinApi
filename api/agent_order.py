@@ -35,8 +35,6 @@ class AgentOrder(BaseApi):
         self.rep_params["brokerid"] = '85'
         # done: 先调试获取登录key的
         # # 整合所有的params,test_case是每个用例传不同的参数
-        # params = {**self.base_param, **test_case}
-        # test_case = self.order_param["list"]["test_keyword0"]
         test_case = {
             "pageno": pageno,
             "pagesize": pagesize,
