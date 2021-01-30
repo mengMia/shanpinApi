@@ -9,11 +9,9 @@ class TestAgentOrder():
     order = AgentOrder()
     file = ReadFile()
     api_data = file.read_yaml("order_yaml_path")["shanpinApi"]["order"]["list"]
-    # print(type(api_data["test_keyword0"]))
-    # data = api_data["test_keyword0"]
 
-    @pytest.mark.parametrize('pageno, pagesize, keyword, jobarea, funtype, sorttype', [
-        api_data["test_keyword0"]])
+    @pytest.mark.parametrize('pageno, pagesize, keyword, jobarea, funtype, sorttype',
+        api_data["test_cases"])
     def test_get_order_list(self, get_token, pageno, pagesize, keyword, jobarea, funtype, sorttype):
         key = get_token
         self.order.get_order_list(key, pageno, pagesize, keyword, jobarea, funtype, sorttype)
