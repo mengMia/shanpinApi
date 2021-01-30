@@ -20,7 +20,7 @@ class AgentOrder(BaseApi):
     rep_params = {}
     # key = get_token
 
-    def get_order_list(self, key, pageno, pagesize, keyword, jobarea, funtype, sorttype):
+    def get_order_list(self, key, test_cases):
         """
         获取所有招聘订单列表
         :return:
@@ -35,21 +35,21 @@ class AgentOrder(BaseApi):
         self.rep_params["brokerid"] = '85'
         # done: 先调试获取登录key的
         # # 整合所有的params,test_case是每个用例传不同的参数
-        test_case = {
-            "pageno": pageno,
-            "pagesize": pagesize,
-            "keyword": keyword,
-            "jobarea": jobarea,
-            "funtype": funtype,
-            "sorttype": sorttype
+        case_params = {
+            "pageno": test_cases[0],
+            "pagesize": test_cases[1],
+            "keyword": test_cases[2],
+            "jobarea": test_cases[3],
+            "funtype": test_cases[4],
+            "sorttype": test_cases[5]
         }
-        params = {**self.base_param, **test_case}
+        params = {**self.base_param, **case_params}
         # 获取sign并返回替换sign后的参数
         params = self.sign.replace_sign(params, self.rep_params)
 
         # 获取请求方式和url
-        method = self.order_param["list"]["method"]
-        url = self.order_param["list"]["url"]
+        method = self.order_param["get_order_list"]["method"]
+        url = self.order_param["get_order_list"]["url"]
 
         r = self.request.run_main(method, url, params, self.rep_params)
         print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
