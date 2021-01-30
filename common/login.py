@@ -64,7 +64,7 @@ class Login():
         url = self.base_url + self.login_url
         # 发送请求
         r = self.request.run_main(self.login_method, url, params[0], params[1])
-        print(json.dumps(r.json(), ensure_ascii=False, indent=2))
+        # print(json.dumps(r.json(), ensure_ascii=False, indent=2))
         # 数据清理-删除验证码60s时间限制以及发送次数限制
         self.redis.deleteRedisKey("shanpinApi", self.keyArray)
         return r
@@ -85,7 +85,7 @@ class Login():
         # 发送请求
         r = self.request.run_main(self.sms_method, url, params[0], params[1])
 
-        print(json.dumps(r.json(), ensure_ascii=False, indent=2))
+        # print(json.dumps(r.json(), ensure_ascii=False, indent=2))
         assert r.status_code == 200
         assert r.json()['status'] == 1
         return r
