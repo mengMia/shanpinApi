@@ -98,6 +98,13 @@ class MethonTest():
 
         # print(r.hdel('agent_verifycode_200508:85', 'id'))
 
+    def generate_dict(self):
+        params=['pageno', 'pagesize', 'keyword', 'jobarea', 'funtype', 'sorttype']
+        test_cases = ['1', '12', "销售", '', '', '0']
+        case_params={}
+        for k, v in zip(params, test_cases):
+            case_params[k] = v
+
 
 
 
@@ -107,6 +114,7 @@ if __name__ == '__main__':
     # get_cookie()
     # save_cookie()
     # md5_code()
-    t.getSign()
+    # t.getSign()
     # t.get_photoBase64encode()
     # t.conn_redis()
+    t.generate_dict()
