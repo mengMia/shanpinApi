@@ -29,39 +29,21 @@ class AgentOrder(BaseApi):
         method = self.order_param["get_order_list"]["method"]
         url = self.order_param["get_order_list"]["url"]
         r = self.request.run_main(method, url, params)
-        print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
+        # print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
         assert r.status_code == 200
         assert r.json()['status'] == 1
         assert r.json()['result'] == 1
         return r
 
-    def get_job_info(self, key):
+    def get_job_info(self, params):
         """
         获取订单详情-职位详情
         :return:
         """
-        timestamp = int(round(time.time() * 1000))
-        # key = self.get_cookie()
-        params = {
-            "orderid": 246,
-            "version": 100,
-            "productname": "51mdd_agent_pc",
-            "brokerid": 85,
-            "key": key,
-            "timestamp": timestamp,
-            "source": "pc",
-            "sign": ''
-        }
-        data = {
-        }
-        # 获取sign
-        sign = self.get_sign(params, data)
-        params["sign"] = sign
-
-        r = requests.get("http://shanpinapi.51job.com/order/get_job_info.php",
-                          params=params,
-                          )
-        print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
+        method = self.order_param["get_job_info"]["method"]
+        url = self.order_param["get_job_info"]["url"]
+        r = self.request.run_main(method, url, params)
+        # print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
         assert r.status_code == 200
         # 这个接口的status返回的竟然是字符串"1"
         assert r.json()['status'] == "1"
