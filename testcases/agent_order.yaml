@@ -1,20 +1,15 @@
 shanpinApi:
   order:
-    list:
+    test_get_order_list:
       method: 'get'
       url: 'http://shanpinapi.51job.com/order/get_order_list.php'
-      test_keyword0:
-        - '1'
-        - '12'
-        - "销售"
-        - ''
-        - ''
-        - '0'
-      test_keyword1:
-        "pageno": '1'
-        "pagesize": '12'
-        "keyword": "前台"
-        "jobarea": ''
-        "funtype": ''
-        "sorttype": '0'
+#  页码：pageno，一页条数：pagesize，搜索关键字：keyword（职位/公司名称），查询条件-地区：jobarea，查询条件-职能：funtype，
+#  排序方式：sorttype（0-默认，1-奖金最多，2-质保期最短，3-招聘人数最多）
+      test_cases:
+        - ['1', '12', "销售", '', '', '0']
+        - ['1', '12', '百灵', '', '', '']
+        - ['1', '12', '', '020000', '', '2']
+    test_get_job_info:
+      method: ''
+
 
