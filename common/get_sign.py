@@ -11,7 +11,7 @@ class Sign():
     # param_request = {}
     # data_request = {}
 
-    def get_requestparams(self, brokerid, key, test_cases, base_param, data_request=None):
+    def get_requestparams(self, brokerid, key, test_cases, base_param, params, data_request=None):
         """
         传入base_param和测试用例的参数，进行变量替换并且获取sign之后返回最终的请求参数
         """
@@ -25,23 +25,15 @@ class Sign():
 
         # 先对从yaml中传进来的param_request, data_request进行变量替换
         base_param = self.file.var_replace(base_param, self.rep_params)
-        # 整合所有的params,test_case是每个用例传不同的参数
-        case_params = {
-            "pageno": test_cases[0],
-            "pagesize": test_cases[1],
-            "keyword": test_cases[2],
-            "jobarea": test_cases[3],
-            "funtype": test_cases[4],
-            "sorttype": test_cases[5]
-        }
+        # 把传入的用例参数组合成字典的形式
+        case_params={}
+        for k, v in zip(params, test_cases):
+            case_params[k] = v
         # 所有的query参数
         param_request = {**base_param, **case_params}
         # 获取sign，需要所有的query参数和data参数
         # todo:经过这一步之后，sign参数被删除了，所以下面不进行替换了，而是直接加一个键值对
         sign = self.get_sign(param_request, data_request)
-        # # 替换params中的sign
-        # self.rep_params["sign"] = sign
-        # param_request = self.file.var_replace(param_request, self.rep_params)
         # 在params中增加key为sign的键值对
         param_request["sign"] = sign
         # 返回替换后的params参数
