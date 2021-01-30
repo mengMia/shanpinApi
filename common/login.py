@@ -13,7 +13,7 @@ class Login():
     file = ReadFile()
 
     def __init__(self):
-        self.rep_params = {}
+        # self.rep_params = {}
         self.base_param = self.file.read_yaml('test_yaml_path')['shanpinApi']
         self.redis_key = self.file.read_yaml('redis_yaml_path')['shanpinApi']
 
@@ -45,27 +45,26 @@ class Login():
         """
         登录闪聘
         """
-        # done:已经登录过，再执行就会报错，要进行数据清理，后续再完成
-        # done : 这个yaml中使用变量的，以后通过写一个变量替换方法来完成，
         params = self.login["params"]
         data = self.login["data"]
+        rep_params = {}
 
         # 发送验证码
         self.send_phone_code()
         # 获取并替换掉验证码
         verifycode = self.get_verifycode(str(self.phonenum))
-        self.rep_params['verifycode'] = str(verifycode)
+        rep_params['verifycode'] = str(verifycode)
 
         timestamp = int(round(time.time() * 1000))
-        self.rep_params["timestamp"] = str(timestamp)
+        rep_params["timestamp"] = str(timestamp)
 
         # 该方法获取sign，并返回替换sign之后的参数
-        params = self.sign.replace_sign(params, self.rep_params, data)
+        params = self.sign.replace_sign(params, rep_params, data)
         # 获取url
         url = self.base_url + self.login_url
         # 发送请求
-        r = self.request.run_main(self.login_method, url, params, self.rep_params, data)
-        # print(json.dumps(r.json(), ensure_ascii=False, indent=2))
+        r = self.request.run_main(self.login_method, url, params[0], params[1])
+        print(json.dumps(r.json(), ensure_ascii=False, indent=2))
         # 数据清理-删除验证码60s时间限制以及发送次数限制
         self.redis.deleteRedisKey("shanpinApi", self.keyArray)
         return r
@@ -74,18 +73,19 @@ class Login():
         """
         获取验证码
         """
+        rep_params = {}
         params = self.login["params"]
         data = self.sms["data"]
         timestamp = int(round(time.time() * 1000))
-        self.rep_params["timestamp"] = str(timestamp)
+        rep_params["timestamp"] = str(timestamp)
         # 该方法获取sign，并返回替换sign之后的参数，data是在request方法中进行的变量替换
-        params = self.sign.replace_sign(params, self.rep_params, data)
+        params = self.sign.replace_sign(params, rep_params, data)
         # 获取url
         url = self.base_url + self.sms_url
         # 发送请求
-        r = self.request.run_main(self.sms_method, url, params, self.rep_params, data)
+        r = self.request.run_main(self.sms_method, url, params[0], params[1])
 
-        # print(json.dumps(r.json(), ensure_ascii=False, indent=2))
+        print(json.dumps(r.json(), ensure_ascii=False, indent=2))
         assert r.status_code == 200
         assert r.json()['status'] == 1
         return r
