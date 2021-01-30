@@ -1,6 +1,6 @@
 shanpinApi:
   order:
-    test_get_order_list:
+    get_order_list:
       method: 'get'
       url: 'http://shanpinapi.51job.com/order/get_order_list.php'
 #  页码：pageno，一页条数：pagesize，搜索关键字：keyword（职位/公司名称），查询条件-地区：jobarea，查询条件-职能：funtype，
