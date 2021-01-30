@@ -20,38 +20,15 @@ class AgentOrder(BaseApi):
     rep_params = {}
     # key = get_token
 
-    def get_order_list(self, key, test_cases):
+    def get_order_list(self, params):
         """
         获取所有招聘订单列表
         :return:
         """
-        # done: key使用conftest中的key进行获取
-        timestamp = int(round(time.time() * 1000))
-        # 将要替换的公共params参数存到rep_params中,
-        # todo: 可以先在测试用例执行的地方替换好，把params参数传进来，
-        #  这样request请求中不需要再进行替换了
-        self.rep_params["timestamp"] = str(timestamp)
-        self.rep_params["key"] = key
-        self.rep_params["brokerid"] = '85'
-        # done: 先调试获取登录key的
-        # # 整合所有的params,test_case是每个用例传不同的参数
-        case_params = {
-            "pageno": test_cases[0],
-            "pagesize": test_cases[1],
-            "keyword": test_cases[2],
-            "jobarea": test_cases[3],
-            "funtype": test_cases[4],
-            "sorttype": test_cases[5]
-        }
-        params = {**self.base_param, **case_params}
-        # 获取sign并返回替换sign后的参数
-        params = self.sign.replace_sign(params, self.rep_params)
-
         # 获取请求方式和url
         method = self.order_param["get_order_list"]["method"]
         url = self.order_param["get_order_list"]["url"]
-
-        r = self.request.run_main(method, url, params, self.rep_params)
+        r = self.request.run_main(method, url, params)
         print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
         assert r.status_code == 200
         assert r.json()['status'] == 1
