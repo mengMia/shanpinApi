@@ -1,11 +1,12 @@
 import json
 import pytest
+
+from common import prefixRedisData
 from common.login import Login
 from common.read_file import ReadFile
 
-
 @pytest.fixture(scope='session')
-def get_token():
+def get_token(delete_logininfo):
     """
     登录获取key并返回
     """
@@ -13,6 +14,17 @@ def get_token():
     print(json.dumps(r.json(), ensure_ascii=False, indent=2))
     get_token = r.json()['key']
     return get_token
+
+@pytest.fixture(scope='session')
+def delete_logininfo():
+    """
+    登录之前的数据清理，删除该账号已经登录的记录
+    """
+    redis = prefixRedisData.ExecRedis()
+    brokerid = '85'
+    keyArray = redis.get_redis_key(brokerid)
+    redis.deleteRedisKey("shanpinApi", keyArray)
+
 
 # 用来获取测试用例，传入test方法里
 @pytest.fixture(scope="function")
@@ -31,5 +43,3 @@ def pytest_collection_modifyitems(session, config, items):
     for item in items:
         item.name = item.name.encode('utf-8').decode('unicode-escape')
         item._nodeid = item.nodeid.encode('utf-8').decode('unicode-escape')
-
-
