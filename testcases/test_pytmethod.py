@@ -16,9 +16,6 @@ def test_login(login_r):
     print(f"测试用例中login的返回值; {a}")
     assert a != ""
 
-@pytest.mark.parametrize("name", [
-    ['tom', 123],
-    ['jerry', 345]
-])
+@pytest.mark.parametrize("name", [['tom', 123]])
 def test_login(name,**kwargs):
     print(f"测试用例中login的返回值; {name}")
