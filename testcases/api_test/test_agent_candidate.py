@@ -1,4 +1,4 @@
-from agent_candidate.agent_candidate import AgentCandidate
+from api.agent_candidate import AgentCandidate
 
 
 class TestAgentCandidate():
