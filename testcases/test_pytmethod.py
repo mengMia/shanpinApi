@@ -1,10 +1,8 @@
 # 方法名作为参数
 import pytest
 
-test_user_data = {
-    'Tome': '123',
-    'Jerry': '123',
-}
+test_user_data = ['Tome', 'Jerry']
+
 @pytest.fixture(scope="module")
 def login_r(request):
     # 通过request.param获取参数
@@ -17,3 +15,10 @@ def test_login(login_r):
     a = login_r
     print(f"测试用例中login的返回值; {a}")
     assert a != ""
+
+@pytest.mark.parametrize("name", [
+    ['tom', 123],
+    ['jerry', 345]
+])
+def test_login(name,**kwargs):
+    print(f"测试用例中login的返回值; {name}")
