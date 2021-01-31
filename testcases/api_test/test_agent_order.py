@@ -21,25 +21,33 @@ class TestAgentOrder():
     # print(api_data["test_cases"])
 
     @allure.story("用例--登录状态下获取订单列表")
-    # @pytest.mark.parametrize('get_testcases', api_data["get_order_list"]["test_cases"], indirect=True)
-    @pytest.mark.parametrize('test_cases', api_data["get_order_list"]["test_cases"])
+    @pytest.mark.parametrize('test_cases', api_data["get_order_list"]["test_cases"], ids=api_data["get_order_list"]["ids"])
     def test_get_order_list(self, get_token, test_cases):
-        # todo:订单列表，是否登录，获取的列表不一样，用例还没设计
+        # todo:订单列表，是否登录，获取的列表不一样
         # 通过传入函数名get_token调用fixture来获取登录key
         key = get_token
         # 获取测试用例的参数之后，要把base_params进行变量替换，获取sign之后再传入接口
         brokerid = '85'
         params = self.param.get_requestparams(brokerid, key, test_cases, self.base_param, self.api_data["get_order_list"]["params"])
-        self.order.get_order_list(params)
+        r = self.order.get_order_list(params)
+        expect_result = self.api_data["get_order_list"]["expect_result"]
+        assert r.status_code == expect_result[0]
+        # 这个接口的status返回的竟然是字符串"1"
+        assert r.json()['status'] == expect_result[1]
+        assert r.json()['result'] == expect_result[2]
 
     @allure.story("用例--获取职位详情")
-    @pytest.mark.parametrize('get_testcases', api_data["get_job_info"]["test_cases"], indirect=True)
-    def test_get_job_info(self, get_token, get_testcases):
+    @pytest.mark.parametrize('test_cases', api_data["get_job_info"]["test_cases"], ids=api_data["get_job_info"]["ids"])
+    def test_get_job_info(self, get_token, test_cases):
         key = get_token
-        test_cases = get_testcases
         brokerid = '85'
         params = self.param.get_requestparams(brokerid, key, test_cases, self.base_param, self.api_data["get_job_info"]["params"])
-        self.order.get_job_info(params)
+        r = self.order.get_job_info(params)
+        expect_result = self.api_data["get_job_info"]["expect_result"]
+        assert r.status_code == expect_result[0]
+        # 这个接口的status返回的竟然是字符串"1"
+        assert r.json()['status'] == expect_result[1]
+        assert r.json()['result'] == expect_result[2]
 
 #     def test_get_share_image(self):
 #         self.order.get_share_image()
