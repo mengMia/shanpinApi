@@ -14,6 +14,7 @@ def get_token():
     get_token = r.json()['key']
     return get_token
 
+# 用来获取测试用例，传入test方法里
 @pytest.fixture(scope="function")
 def get_testcases(request):
     # 通过request.param获取参数
@@ -25,5 +26,10 @@ def get_testcases(request):
 # # 可见执行测试用例的时候，即使不引用conftest，也会去先加载conftest文件
 # file = ReadFile()
 # api_data = file.read_yaml("order_yaml_path")["shanpinApi"]["order"]["list"]
+
+def pytest_collection_modifyitems(session, config, items):
+    for item in items:
+        item.name = item.name.encode('utf-8').decode('unicode-escape')
+        item._nodeid = item.nodeid.encode('utf-8').decode('unicode-escape')
 
 
