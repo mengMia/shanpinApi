@@ -3,6 +3,7 @@ import pytest
 
 from api.agent_order import AgentOrder
 from common.get_sign import Sign
+from common.log import Log
 from common.read_file import ReadFile
 
 
@@ -12,6 +13,7 @@ from common.read_file import ReadFile
 class TestAgentOrder():
     # todo:难道每个测试用例都要传入key进去吗
     # todo:登录前也要做数据清理，清除验证码的redis
+    log = Log()
     order = AgentOrder()
     param = Sign()
     file = ReadFile()
@@ -32,9 +34,12 @@ class TestAgentOrder():
         r = self.order.get_order_list(params)
         expect_result = self.api_data["get_order_list"]["expect_result"]
         assert r.status_code == expect_result[0]
-        # 这个接口的status返回的竟然是字符串"1"
+        self.log.info("status ==> 期望结果:{}, 实际结果：【{}】".format(expect_result[1], r.json()['status']))
         assert r.json()['status'] == expect_result[1]
         assert r.json()['result'] == expect_result[2]
+        self.log.info("*************测试用例执行结束****************")
+
+
 
     @allure.story("用例--获取职位详情")
     @pytest.mark.parametrize('test_cases', api_data["get_job_info"]["test_cases"], ids=api_data["get_job_info"]["ids"])
