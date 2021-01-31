@@ -29,10 +29,6 @@ class AgentOrder(BaseApi):
         method = self.order_param["get_order_list"]["method"]
         url = self.order_param["get_order_list"]["url"]
         r = self.request.run_main(method, url, params)
-        # print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
-        assert r.status_code == 200
-        assert r.json()['status'] == 1
-        assert r.json()['result'] == 1
         return r
 
     def get_job_info(self, params):
@@ -43,11 +39,6 @@ class AgentOrder(BaseApi):
         method = self.order_param["get_job_info"]["method"]
         url = self.order_param["get_job_info"]["url"]
         r = self.request.run_main(method, url, params)
-        # print((json.dumps(r.json(), indent=2, ensure_ascii=False)))
-        assert r.status_code == 200
-        # 这个接口的status返回的竟然是字符串"1"
-        assert r.json()['status'] == "1"
-        assert r.json()['result'] == 1
         return r
 
     def get_share_image(self):
