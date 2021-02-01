@@ -1,4 +1,4 @@
-from agent_user.agent_manage import AgentManage
+from api.agent_manage import AgentManage
 
 
 class TestUser:
