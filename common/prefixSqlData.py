@@ -1,4 +1,5 @@
 import pymssql
+import pymysql
 import yaml
 
 from common.log import Log
@@ -33,21 +34,24 @@ class ExecSql():
 
     def _get_sql_conf(self, project):
         try:
-            return self.conf[project]["sqlserver"]
+            return self.conf[project]['sql']
         except Exception as e:
             self.log.error("找不到项目:{0}".format(e))
 
-    def conn_db(self):
+    def conn_db(self, server):
         """
         连接sqlserver
         :return:
         """
-        server = self.sql_conf['host']  # 连接服务器地址
-        user = self.sql_conf['user']  # 连接帐号
-        password = self.sql_conf['pwd']  # 连接密码
-        sms_db = self.sql_conf['sms_db']  # 使用的数据库
+        host = self.sql_conf[server]['host']  # 连接服务器地址
+        user = self.sql_conf[server]['user']  # 连接帐号
+        password = self.sql_conf[server]['pwd']  # 连接密码
+        db = self.sql_conf[server]['db']  # 使用的数据库
         try:
-            self.conn = pymssql.connect(server, user, password, sms_db, charset="GBK")  # 获取连接
+            if server == 'sqlserver':
+                self.conn = pymssql.connect(host, user, password, db, charset="GBK")  # 获取连接
+            elif server == 'mysqlserver':
+                self.conn = pymysql.connect(host=host, user=user, password=password, db=db, charset="GBK")
         except Exception as e:
             self.log.error("连接失败:{0}".format(e))
 
@@ -58,13 +62,13 @@ class ExecSql():
         self.cursor = self.conn.cursor()
         return self.cursor
 
-    def exec_sql(self, project, sql):
+    def exec_sql(self, project, server, sql):
         # todo 仅仅写了执行查询语句，增删改还没封装
         # 获取sql配置
         self.sql_conf = self._get_sql_conf(project)
         try:
             # 使用已获取到的sql配置：sql_conf连接数据库
-            self.conn_db()
+            self.conn_db(server)
             # 获取游标
             cursor = self.get_cursor()
             # 执行sql语句
@@ -81,9 +85,8 @@ class ExecSql():
 if __name__ == '__main__':
     test = ExecSql()
     phonenum = 18275691111
-    # sql = f'select top 1 content from smssendqueue where KeyNum = {phonenum} order by smsid desc'
-    sql = 'select top 1 content from smssendqueue where KeyNum = phonenum order by smsid desc'
-    result = test.exec_sql("shanpinApi", sql)
+    sql = f'select top 1 content from smssendqueue where KeyNum = {phonenum} order by smsid desc'
+    result = test.exec_sql("shanpinApi", 'sqlserver', sql)
     print(result)
 
 
