@@ -30,8 +30,8 @@ class TestAgentOrder():
         key = get_token
         # 获取测试用例的参数之后，要把base_params进行变量替换，获取sign之后再传入接口
         brokerid = '85'
-        params = self.param.get_requestparams(brokerid, key, test_cases, self.base_param, self.api_data["get_order_list"]["params"])
-        r = self.order.get_order_list(params)
+        [query, data] = self.param.get_requestparams(brokerid, key, test_cases, self.base_param, self.api_data["get_order_list"]["params"])
+        r = self.order.get_order_list(query)
         expect_result = self.api_data["get_order_list"]["expect_result"]
         assert r.status_code == expect_result[0]
         self.log.info("status ==> 期望结果:{}, 实际结果：【{}】".format(expect_result[1], r.json()['status']))
