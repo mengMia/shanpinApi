@@ -16,8 +16,8 @@ class ReadFile():
         # 拼接的路径结果是：D:/CS/PythonCode\config/test.yaml，但是yaml读取这个路径的时候没报错
         self.test_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config/test.yaml')
         self.redis_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config/redisKey.yaml')
-        self.order_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'testcases/agent_order.yaml')
-        self.user_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'testcases/agent_manage.yaml')
+        self.order_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'datas/agent_order.yaml')
+        self.user_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'datas/agent_manage.yaml')
 
 
     def read_yaml(self, path_type):
