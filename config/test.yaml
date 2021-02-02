@@ -34,15 +34,22 @@ shanpinApi:
     data:
       mobile: *mobile_jing
 
-  sqlserver:
-    host: '10.100.2.142'
-    user: 'sa'
-    pwd: 'abc123!'
-    sms_db: 'sms'
+  sql:
+    sqlserver:
+      host: '10.100.2.142'
+      user: 'sa'
+      pwd: 'abc123!'
+      db: 'sms'
 
-  redisserver:
-    host: '10.100.3.225'
-    port: '6380'
-    db: '0'
-    password: '3ebc6626'
+    mysqlserver:
+      host: '10.100.3.241'
+      user: 'root'
+      pwd: 'S7h26k*4&ds*'
+      db: '51mdd'
+
+    redisserver:
+      host: '10.100.3.225'
+      port: '6380'
+      db: '0'
+      password: '3ebc6626'
 
