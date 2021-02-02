@@ -17,6 +17,8 @@ class ReadFile():
         self.test_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config/test.yaml')
         self.redis_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config/redisKey.yaml')
         self.order_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'testcases/agent_order.yaml')
+        self.user_yaml_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'testcases/agent_manage.yaml')
+
 
     def read_yaml(self, path_type):
         file_path = ''
@@ -26,6 +28,8 @@ class ReadFile():
             file_path = self.redis_yaml_path
         elif path_type == 'order_yaml_path':
             file_path = self.order_yaml_path
+        elif path_type == 'user_yaml_path':
+            file_path = self.user_yaml_path
 
         with open(file_path, 'r', encoding='utf-8') as f:
             data = yaml.safe_load(f.read())
