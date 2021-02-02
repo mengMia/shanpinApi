@@ -6,7 +6,10 @@ shanpinApi:
 #  页码：pageno，一页条数：pagesize，搜索关键字：keyword（职位/公司名称），查询条件-地区：jobarea，查询条件-职能：funtype，
 #  排序方式：sorttype（0-默认，1-奖金最多，2-质保期最短，3-招聘人数最多）
       params:
-        ['pageno', 'pagesize', 'keyword', 'jobarea', 'funtype', 'sorttype']
+        query:
+          ['pageno', 'pagesize', 'keyword', 'jobarea', 'funtype', 'sorttype']
+        data:
+          []
       test_cases:
         - ['1', '12', " ", '', '', '0']
         - ['1', '12', "销售", '', '', '0']
@@ -25,7 +28,10 @@ shanpinApi:
       method: 'get'
       url: 'http://shanpinapi.51job.com/order/get_job_info.php'
       params:
-        ['orderid']
+        query:
+          ['orderid']
+        data:
+          []
       test_cases:
 #   订单id：orderid
         - ['246']
