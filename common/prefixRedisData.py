@@ -18,7 +18,7 @@ class ExecRedis():
         # with open('../config/test.yaml') as f:
         #     conf = yaml.safe_load(f)
         conf = self.file.read_yaml("test_yaml_path")
-        self.redis_conf = conf[project]['redisserver']
+        self.redis_conf = conf[project]['sql']['redisserver']
         return self.redis_conf
 
     def conn_redis(self):
