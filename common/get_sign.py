@@ -11,12 +11,17 @@ class Sign():
     # param_request = {}
     # data_request = {}
 
-    def get_requestparams(self, brokerid, key, test_cases, base_param, params, data_request=None):
+    def get_requestparams(self, brokerid, key, test_cases, base_param, params):
         """
         传入base_param和测试用例的参数，进行变量替换并且获取sign之后返回最终的请求参数
         """
         # todo: 这个函数不知道放在哪个模块比较合适，暂时先放这里
-        # self.data_request = data_request
+        # test_cases是传入的所有query和data参数，但是params是分开了query和data请求的字段，所以可以通过两个的字段长度来把test_cases分成query和data两部分
+        params_query = params["query"]
+        params_data = params["data"]
+        query = test_cases[:len(params_query)]
+        data = test_cases[(len(params_query)):]
+
         timestamp = int(round(time.time() * 1000))
         # 将要替换的公共params参数存到rep_params中,
         self.rep_params["timestamp"] = str(timestamp)
@@ -25,19 +30,24 @@ class Sign():
 
         # 先对从yaml中传进来的param_request, data_request进行变量替换
         base_param = self.file.var_replace(base_param, self.rep_params)
-        # 把传入的用例参数组合成字典的形式
-        case_params={}
-        for k, v in zip(params, test_cases):
-            case_params[k] = v
+        # 把传入的query用例参数组合成字典的形式
+        case_query={}
+        for k, v in zip(params_query, query):
+            case_query[k] = v
+        # 把传入的data用例参数组合成字典的形式
+        case_data = {}
+        for k, v in zip(params_data, data):
+            case_data[k] = v
         # 所有的query参数
-        param_request = {**base_param, **case_params}
+        param_request = {**base_param, **case_query}
+        data_request = case_data
         # 获取sign，需要所有的query参数和data参数
         # todo:经过这一步之后，sign参数被删除了，所以下面不进行替换了，而是直接加一个键值对
         sign = self.get_sign(param_request, data_request)
         # 在params中增加key为sign的键值对
         param_request["sign"] = sign
         # 返回替换后的params参数
-        return param_request
+        return [param_request, data_request]
 
     def replace_sign(self, param_request, rep_params, data_request=None):
         """
