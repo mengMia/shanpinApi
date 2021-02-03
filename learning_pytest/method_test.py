@@ -75,7 +75,7 @@ class MethonTest():
         print(cookies)
 
     def get_photoBase64encode(self):
-        with open("common/12.png", "rb") as f:
+        with open("../common/12.png", "rb") as f:
             img_data = f.read()
             base64_data = base64.b64encode(img_data)
             pic_str = base64_data.decode("utf-8")
