@@ -4,6 +4,7 @@ import pytest
 from api.agent_manage import AgentManage
 from common.get_sign import Sign
 from common.log import Log
+from common.prefixSqlData import ExecSql
 from common.read_file import ReadFile
 
 
@@ -36,11 +37,14 @@ class TestUser:
         self.log.info("status ==> 期望结果:{}, 实际结果：【{}】".format(expect_result[1], r.json()['status']))
         assert r.json()['status'] == expect_result[1]
         assert r.json()['result'] == expect_result[2]
-
-
-        self.log.info("数据库更新 ==> 期望结果:{}, 实际结果：【{}】".format(expect_result[1], r.json()['status']))
-        assert r.json()['status'] == expect_result[1]
-        assert r.json()['result'] == expect_result[2]
+        # 验证数据库是否新增成功
+        sql_conn = ExecSql()
+        phonenum = test_cases[0]
+        sql = f'select {phonenum} from t_agent_broker where brokerphonenum = {phonenum}'
+        result = (sql_conn.exec_sql("shanpinApi", 'mysqlserver', sql, 'select_one'))
+        sql_result = str(result[0])
+        self.log.info("数据库更新 ==> 期望结果:{}, 实际结果：【{}】".format(phonenum, sql_result))
+        assert phonenum == sql_result
         self.log.info("*************测试用例执行结束****************")
 
     def test_update_agent(self):
