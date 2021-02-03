@@ -3,6 +3,7 @@ import pytest
 
 from common import prefixRedisData
 from common.login import Login
+from common.prefixSqlData import ExecSql
 from common.read_file import ReadFile
 
 @pytest.fixture(scope='session')
@@ -33,6 +34,21 @@ def get_testcases(request):
     test_cases = request.param
     # print(f"\n 登录用户：{user}")
     return test_cases
+
+@pytest.fixture()
+def delete_agent(request):
+    """
+    添加经纪人之前的数据清理
+    """
+    test_cases = request.param
+    phonenum = test_cases[0]
+    sql_conn = ExecSql()
+    sql = f'delete from t_agent_broker where brokerphonenum = {phonenum}'
+    sql_conn.exec_sql("shanpinApi", 'mysqlserver', sql, 'del')
+    return test_cases
+
+
+
 
 # # 这个暂时没用，但是执行测试用例时会去加载D:\CS\PythonCode\testcases\api_test\conftest.py文件，这个文件中有导入api_data的语句，如果不写的话会报错
 # # 可见执行测试用例的时候，即使不引用conftest，也会去先加载conftest文件
