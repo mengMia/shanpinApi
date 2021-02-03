@@ -38,14 +38,17 @@ def get_testcases(request):
 @pytest.fixture()
 def delete_agent(request):
     """
-    添加经纪人之前的数据清理
+    添加经纪人之前和之后的数据清理
     """
     test_cases = request.param
     phonenum = test_cases[0]
     sql_conn = ExecSql()
     sql = f'delete from t_agent_broker where brokerphonenum = {phonenum}'
     sql_conn.exec_sql("shanpinApi", 'mysqlserver', sql, 'del')
-    return test_cases
+    # 返回获取到的测试用例
+    yield test_cases
+    # 测试用例执行完成之后再次进行数据清理
+    sql_conn.exec_sql("shanpinApi", 'mysqlserver', sql, 'del')
 
 
 
