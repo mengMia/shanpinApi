@@ -6,8 +6,11 @@ from hashlib import md5
 
 import redis
 
+from common.prefixSqlData import ExecSql
+
 
 class MethonTest():
+    sql = ExecSql()
     root_logger = logging.getLogger()
     # print(f"root_logger.handlers:{logging.getLogger().handlers}")
     for h in root_logger.handlers[:]:
@@ -104,6 +107,12 @@ class MethonTest():
         case_params={}
         for k, v in zip(params, test_cases):
             case_params[k] = v
+
+    def get_sql(self):
+        phonenum = '18909980000'
+        sql = f'delete from t_agent_broker where brokerphonenum = {phonenum}'
+
+
 
 
 
