@@ -10,7 +10,9 @@ shanpinApi:
           ['phonenum', 'name']
       test_cases:
         - ['18909980001', '测试不知道']
+        - ['18900008900', '鞥哈']
       expect_result:
         [200, 1, 1]
       ids:
         - '经纪人1'
+        - '经纪人2'
