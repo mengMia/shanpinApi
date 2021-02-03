@@ -92,7 +92,7 @@ class Login():
 
     def get_verifycode(self, phonenum):
         sql = f'select top 1 content from smssendqueue where KeyNum = {phonenum} order by smsid desc'
-        result = self.sql.exec_sql("shanpinApi", 'sqlserver', sql)
+        result = self.sql.exec_sql("shanpinApi", 'sqlserver', sql, 'select_one')
         message = str(result).split("，")
         # 获取验证码
         verifycode = message[0].split("：")[1]
