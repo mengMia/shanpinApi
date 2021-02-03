@@ -62,19 +62,29 @@ class ExecSql():
         self.cursor = self.conn.cursor()
         return self.cursor
 
-    def exec_sql(self, project, server, sql):
+    def exec_sql(self, project, server, sql, sql_type):
         # todo 仅仅写了执行查询语句，增删改还没封装
         # 获取sql配置
         self.sql_conf = self._get_sql_conf(project)
         try:
-            # 使用已获取到的sql配置：sql_conf连接数据库
-            self.conn_db(server)
-            # 获取游标
-            cursor = self.get_cursor()
-            # 执行sql语句
-            cursor.execute(sql)
-            # 获取sql执行结果
-            result = cursor.fetchone()
+            if sql_type == 'select_one':
+                # 使用已获取到的sql配置：sql_conf连接数据库
+                self.conn_db(server)
+                # 获取游标
+                cursor = self.get_cursor()
+                # 执行sql语句
+                cursor.execute(sql)
+                # 获取sql执行结果
+                result = cursor.fetchone()
+            elif sql_type == 'select_list':
+                self.conn_db(server)
+                cursor = self.get_cursor()
+                cursor.execute(sql)
+                result = cursor.fetchall()
+            elif sql_type == 'update' or sql_type == 'del' or sql_type == 'insert':
+                self.conn_db(server)
+                result = self.get_cursor().execute(sql)
+            self.conn.commit()
             self.cursor.close()
             self.conn.close()
             return result
@@ -84,9 +94,13 @@ class ExecSql():
 
 if __name__ == '__main__':
     test = ExecSql()
-    phonenum = 18275691111
-    sql = f'select top 1 content from smssendqueue where KeyNum = {phonenum} order by smsid desc'
-    result = test.exec_sql("shanpinApi", 'sqlserver', sql)
+    # phonenum = 18275691111
+    # sql = f'select top 1 content from smssendqueue where KeyNum = {phonenum} order by smsid desc'
+    # sql1 = f'SELECT * FROM  `t_agent_broker` WHERE brokerid IN (58, 85, 87)'
+    # result = test.exec_sql("shanpinApi", 'sqlserver', sql)
+    phonenum = '18909980001'
+    sql1 = f'delete from t_agent_broker where brokerphonenum = {phonenum}'
+    result = test.exec_sql("shanpinApi", 'mysqlserver', sql1, 'del')
     print(result)
 
 
