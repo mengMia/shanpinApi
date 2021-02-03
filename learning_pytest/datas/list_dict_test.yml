@@ -1,15 +1,22 @@
 #测试用例
-#test_case_dict:
+test_cases:
+  brokerid: 57
+  phonenum: 18237878
+  name: huachenyu
+  amount: 100
+
+
+#-
 #  brokerid: 57
 #  phonenum: 18237878
 #  name: huachenyu
 #  amount: 100
 
-test_case_dict:
-  - [57, '18237878', 'huachenyu', 100]
-  - [55, '18237878', 'huachenyu', 100]
-test_case_dict2:
-  [57]
+#test_case_dict:
+#  - [57, '18237878', 'huachenyu', 100]
+#  - [55, '18237878', 'huachenyu', 100]
+#test_case_dict2:
+#  [57]
 
 #list，一维数组:
 #- 2

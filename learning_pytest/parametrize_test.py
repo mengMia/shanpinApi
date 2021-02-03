@@ -26,24 +26,15 @@ def yaml_test():
     return test_cases
 
 class TestParametrizeLearn():
-    # def filepath(self):
+    # @pytest.mark.parametrize(['name', 'pwd'], [("yy1", "123"), ("yy2", "123")])
+    # def test_caseget(self, name, pwd):
+    #     print(f"姓名是{name}, 密码是{pwd}")
 
-
-    # @pytest.mark.parametrize('brokerid, phonenum, name, amount', yaml_test()[0])
-    # def test_caseget(self, brokerid, phonenum, name, amount):
-    #     print(brokerid)
-    @pytest.mark.parametrize('datas', [yaml_test()["test_case_dict"]])
-    def test_caseget(self, datas):
-        # list = datas["test_case_dict"]
-        data_p = datas
-        print(datas)
-        # print(list)
-
-    # 把用例传入fixture中的get_testcases方法中，这里调用方法并获取测试用例，进而在方法中使用
-    # @pytest.mark.parametrize('get_testcases', yaml_test(), indirect=True)
-    # def test_caseget(self, get_testcases):
-    #     data = get_testcases
-    #     print(data)
+    @pytest.mark.parametrize('testcases', [yaml_test()["test_cases"]])
+    def test_caseget(self, testcases):
+        data = testcases
+        print(data['brokerid'])
+        print(data)
 
 
 
