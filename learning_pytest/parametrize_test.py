@@ -30,9 +30,9 @@ class TestParametrizeLearn():
     # def test_caseget(self, name, pwd):
     #     print(f"姓名是{name}, 密码是{pwd}")
 
-    @pytest.mark.parametrize('testcases', [yaml_test()["test_cases"]])
-    def test_caseget(self, testcases):
-        data = testcases
+    @pytest.mark.parametrize('get_testcases', [yaml_test()["test_cases"]], indirect=True)
+    def test_caseget(self, get_testcases):
+        data = get_testcases
         print(data['brokerid'])
         print(data)
 
