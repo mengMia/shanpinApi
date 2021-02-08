@@ -1,3 +1,5 @@
+import json
+
 import allure
 import pytest
 
@@ -46,12 +48,13 @@ class TestAgentOrder():
     def test_get_job_info(self, get_token, test_cases):
         key = get_token
         brokerid = '85'
-        params = self.param.get_requestparams(brokerid, key, test_cases, self.base_param, self.api_data["get_job_info"]["params"])
-        r = self.order.get_job_info(params)
+        [query, data] = self.param.get_requestparams(brokerid, key, test_cases, self.base_param, self.api_data["get_job_info"]["params"])
+        r = self.order.get_job_info(query)
+        # print(json.dumps(r.json(), indent=2))
         expect_result = self.api_data["get_job_info"]["expect_result"]
         assert r.status_code == expect_result[0]
         # 这个接口的status返回的竟然是字符串"1"
-        assert r.json()['status'] == expect_result[1]
+        assert int(r.json()['status']) == expect_result[1]
         assert r.json()['result'] == expect_result[2]
 
 #     def test_get_share_image(self):
